@@ -1,15 +1,10 @@
 package com.example.mvvmpetfinder
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvmpetfinder.auth.TokenViewModel
-import com.example.mvvmpetfinder.data.model.Token
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

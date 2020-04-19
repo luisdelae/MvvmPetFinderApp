@@ -5,17 +5,16 @@ import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.mvvmpetfinder.data.model.Token
-import com.example.mvvmpetfinder.data.source.MvvmPetFinderRepository
+import com.example.mvvmpetfinder.data.source.TokenRepository
 
 class TokenViewModel(application: Application): AndroidViewModel(application) {
     var tokenLiveData = MutableLiveData<Token>()
 
-    private var mvvmPetFinderRepository:  MvvmPetFinderRepository? = null
+    private var mvvmPetFinderRepository:  TokenRepository? = null
 
     init {
-        mvvmPetFinderRepository =  MvvmPetFinderRepository()
+        mvvmPetFinderRepository =  TokenRepository()
         getToken()
     }
 

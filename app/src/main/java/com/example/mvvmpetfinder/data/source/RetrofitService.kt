@@ -1,11 +1,9 @@
 package com.example.mvvmpetfinder.data.source
 
-import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 
 /**
  * Handles service creation
@@ -13,39 +11,46 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitService {
     private val baseUrl = "https://api.petfinder.com/v2/"
 
-    fun <S> createNoAuthService(serviceClass: Class<S>): S {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
+    private val logging = HttpLoggingInterceptor()
 
+    init {
+        logging.level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    /**
+     * Creates given service class a retrofit entity with no extra client headers
+     */
+    fun <S> createNoAuthService(serviceClass: Class<S>): S {
         val httpClient =
             OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build()
 
-        val retrofit = Retrofit.Builder()
-            .client(httpClient)
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-
-
-        return retrofit.build().create(serviceClass)
+        return getRetrofitBuilder(httpClient).build().create(serviceClass)
     }
 
-    fun <S> createAuthService(serviceClass: Class<S>): S {
-        val token = ""
+    /**
+     * Creates given service class a retrofit entity with auth token client header
+     */
+    fun <S> createAuthService(serviceClass: Class<S>, authToken: String): S {
         val httpClient =
-            OkHttpClient.Builder().addInterceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+            OkHttpClient.Builder()
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $authToken")
                     .build()
-                chain.proceed(request)
-            }.build()
+                    chain.proceed(request)
+                }
+                .addInterceptor(logging)
+                .build()
 
-        val retrofit = Retrofit.Builder()
+        return getRetrofitBuilder(httpClient).build().create(serviceClass)
+    }
+
+    private fun getRetrofitBuilder(httpClient: OkHttpClient): Retrofit.Builder {
+        return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
-
-        return retrofit.build().create(serviceClass)
     }
 }
