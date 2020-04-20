@@ -7,30 +7,33 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Token
 import com.example.mvvmpetfinder.data.source.TokenRepository
+import com.example.mvvmpetfinder.util.Constants.Companion.EMPTY_STRING
+import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_AUTH_TOKEN
+import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_NAME
+import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_PRIVATE_MODE
 
 class TokenViewModel(application: Application): AndroidViewModel(application) {
     var tokenLiveData = MutableLiveData<Token>()
 
-    private var mvvmPetFinderRepository:  TokenRepository? = null
+    private var tokenRepository: TokenRepository? = null
 
     init {
-        mvvmPetFinderRepository =  TokenRepository()
+        tokenRepository =  TokenRepository()
         getToken()
     }
 
     private fun getToken() {
-        mvvmPetFinderRepository?.let {
+        tokenRepository?.let {
             tokenLiveData = it.getToken()
         }
 
         tokenLiveData.observeForever { token ->
-            val privateMode = 0
-            val prefName = "ACCESS_TOKEN"
-            val prefKey = "TOKEN"
-            val sharedPref: SharedPreferences = getApplication<Application>().getSharedPreferences(prefName, privateMode)
-            sharedPref.edit().putString(prefKey, token.accessToken).apply()
+            val sharedPref: SharedPreferences =
+                getApplication<Application>()
+                    .getSharedPreferences(SHARED_PREF_NAME, SHARED_PREF_PRIVATE_MODE)
+            sharedPref.edit().putString(SHARED_PREF_AUTH_TOKEN, token.accessToken).apply()
 
-            val storedToken = sharedPref.getString(prefKey, "nothing")
+            val storedToken = sharedPref.getString(SHARED_PREF_AUTH_TOKEN, EMPTY_STRING)
             Log.d("TokenViewModel", "storedToken: $storedToken")
         }
     }

@@ -20,7 +20,7 @@ class TokenRepository {
                 "client_credentials",
                 "ZeaqbkOd8saaRetT54TeP8FZxkjGcPVnSIguMQJYpOJ6rULlFZ",
                 "IljBAjxgfkQLDgkcEnSQtxWi7efhErxgiflQ8srA"
-        ).enqueue(object : Callback<Token>{
+        ).enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, r: Response<Token>) {
                 if (r.isSuccessful) {
                     tokenLiveData.value = r.body()
