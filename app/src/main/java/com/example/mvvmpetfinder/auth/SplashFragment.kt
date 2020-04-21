@@ -1,6 +1,7 @@
 package com.example.mvvmpetfinder.auth
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,10 @@ class SplashFragment : Fragment() {
         tokenViewModel = ViewModelProvider(this).get(TokenViewModel::class.java)
 
         tokenViewModel?.tokenLiveData?.observe(viewLifecycleOwner, Observer {
-            findNavController().navigate(R.id.action_splashFragment_to_FirstFragment)
+            val handler = Handler()
+            handler.postDelayed({
+                findNavController().navigate(R.id.action_splashFragment_to_FirstFragment)
+            }, 2000)
         })
     }
 

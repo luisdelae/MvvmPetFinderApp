@@ -40,4 +40,36 @@ class SearchFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
+
+    private fun loadPetTypes() {
+
+    }
+
+    private fun loadBreeds() {
+
+    }
+
+    private fun loadColors() {
+
+    }
+
+    private fun loadSizes() {
+
+    }
+
+    private fun loadGenders() {
+
+    }
+
+    private fun loadAge() {
+
+    }
+
+    private fun loadCoat() {
+
+    }
+
+    private fun loadGoodWith() {
+
+    }
 }
