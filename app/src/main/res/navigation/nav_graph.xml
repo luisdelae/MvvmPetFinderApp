@@ -13,7 +13,8 @@
         <action
             android:id="@+id/action_splashFragment_to_FirstFragment"
             app:destination="@id/SearchFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/SplashFragment" />
     </fragment>
     <fragment
         android:id="@+id/SearchFragment"
@@ -22,7 +23,7 @@
         tools:layout="@layout/fragment_search">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_SearchFragment_to_ResultsFragment"
             app:destination="@id/ResultsFragment" />
     </fragment>
     <fragment
@@ -32,7 +33,10 @@
         tools:layout="@layout/fragment_results">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_ResultsFragment_to_SearchFragment"
             app:destination="@id/SearchFragment" />
+        <argument
+            android:name="petType"
+            app:argType="string" />
     </fragment>
 </navigation>

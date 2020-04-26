@@ -12,4 +12,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="hello_blank_fragment">Hello splash fragment</string>
+    <string name="content_description_top_search">Image for top of search view</string>
+    <string name="pet_type_string">What kind of pet are you looking for?</string>
+    <string name="search">SEARCH</string>
 </resources>
