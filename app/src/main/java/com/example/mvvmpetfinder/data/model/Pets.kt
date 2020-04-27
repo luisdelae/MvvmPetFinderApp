@@ -50,6 +50,7 @@ class Pet(
     val tags: List<String>,
     @SerializedName("contact")
     val contactInfo: ContactInfo,
+    // ISO8601 format
     @SerializedName("published_at")
     val publishedDate: String,
     @SerializedName("distance")

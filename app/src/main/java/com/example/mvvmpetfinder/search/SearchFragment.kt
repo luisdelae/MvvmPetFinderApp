@@ -52,7 +52,8 @@ class SearchFragment : Fragment() {
         val spinner: Spinner? = view?.findViewById(R.id.pet_type_spinner)
 
         this.context?.let {
-            val arrayAdapter = ArrayAdapter<String>(it, android.R.layout.simple_spinner_item, petTypeNames)
+            val arrayAdapter = ArrayAdapter<String>(it,
+                android.R.layout.simple_spinner_item, petTypeNames)
 
             spinner?.adapter = arrayAdapter
 

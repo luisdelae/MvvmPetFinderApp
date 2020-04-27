@@ -10,8 +10,10 @@ interface PetFinderApi {
     @GET("types")
     fun getTypes(): Call<PetTypes>
 
+    // https://github.com/square/retrofit/issues/3275
+    @JvmSuppressWildcards
     @GET("animals")
-    fun getPetsOfType(): Call<Pets>
+    fun getPets(@QueryMap data: Map<String, Any>): Call<Pets>
 
     @GET("types/{type}/breeds")
     fun getBreeds(@Path("type") petType: String): Call<List<Breed>>
