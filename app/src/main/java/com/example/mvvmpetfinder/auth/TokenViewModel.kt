@@ -2,7 +2,6 @@ package com.example.mvvmpetfinder.auth
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Token
@@ -11,6 +10,7 @@ import com.example.mvvmpetfinder.util.Constants.Companion.EMPTY_STRING
 import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_AUTH_TOKEN
 import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_NAME
 import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_PRIVATE_MODE
+import timber.log.Timber
 
 class TokenViewModel(application: Application): AndroidViewModel(application) {
     var tokenLiveData = MutableLiveData<Token>()
@@ -34,7 +34,7 @@ class TokenViewModel(application: Application): AndroidViewModel(application) {
             sharedPref.edit().putString(SHARED_PREF_AUTH_TOKEN, token.accessToken).apply()
 
             val storedToken = sharedPref.getString(SHARED_PREF_AUTH_TOKEN, EMPTY_STRING)
-            Log.d("TokenViewModel", "storedToken: $storedToken")
+            Timber.d("storedToken: $storedToken")
         }
     }
 }

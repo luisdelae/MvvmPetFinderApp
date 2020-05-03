@@ -1,12 +1,12 @@
 package com.example.mvvmpetfinder.data.source
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Token
 import com.example.mvvmpetfinder.data.source.remote.TokenApi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class TokenRepository {
 
@@ -25,12 +25,12 @@ class TokenRepository {
                 if (r.isSuccessful) {
                     tokenLiveData.value = r.body()
                 } else {
-                    Log.e("MvvmPetFinderRepository", "Unsuccessful. See above for details")
+                    Timber.e("Unsuccessful. See above for details")
                 }
             }
 
             override fun onFailure(call: Call<Token>, t: Throwable) {
-                Log.e("MvvmPetFinderRepository", "error $t")
+                Timber.e("error $t")
             }
         })
 

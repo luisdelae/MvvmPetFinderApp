@@ -1,7 +1,7 @@
 package com.example.mvvmpetfinder.data.request
 
 data class PetRequest(
-    val petType: String? = null,
+    val type: String? = null,
     // Can have multiple breeds. Must be comma separated.
     val breed: String? = null,
     // Can have multiple breeds. Must be comma separated.

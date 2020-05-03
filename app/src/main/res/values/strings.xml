@@ -15,4 +15,14 @@
     <string name="content_description_top_search">Image for top of search view</string>
     <string name="pet_type_string">What kind of pet are you looking for?</string>
     <string name="search">SEARCH</string>
+    <string name="expand_retract_filter">Extend or retract pet search filters</string>
+    <string name="pet_image">Pet image</string>
+    <string name="good_with_dogs">Good with dogs.</string>
+    <string name="good_with_cats">Good with cats.</string>
+    <string name="good_with_children">Good with children.</string>
+    <string name="name_textview">Name:</string>
+    <string name="age_textview">Age:</string>
+    <string name="breed_textview">Breed:</string>
+    <string name="gender_textview">Gender:</string>
+    <string name="good_with_textview">Good with:</string>
 </resources>

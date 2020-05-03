@@ -2,7 +2,6 @@ package com.example.mvvmpetfinder.data.source.remote
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
@@ -14,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.QueryMap
+import timber.log.Timber
 
 class ResultsRepository(appContext: Application) {
     private var petFinderApi: PetFinderApi? = null
@@ -43,13 +43,13 @@ class ResultsRepository(appContext: Application) {
 
         petFinderApi?.getPets(petRequestData)?.enqueue(object : Callback<Pets> {
             override fun onFailure(call: Call<Pets>, t: Throwable) {
-                Log.e("ResultsRepository", "error $t")            }
+                Timber.e("error $t")            }
 
             override fun onResponse(call: Call<Pets>, response: Response<Pets>) {
                 if (response.isSuccessful) {
                     petsLiveData.value = response.body()
                 } else {
-                    Log.e("SearchRepository", "Unsuccessful. See above for details")
+                    Timber.e("Unsuccessful. See above for details")
                 }
             }
         })

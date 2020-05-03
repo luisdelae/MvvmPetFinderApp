@@ -2,15 +2,15 @@ package com.example.mvvmpetfinder.data.source
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.PetType
 import com.example.mvvmpetfinder.data.model.PetTypes
 import com.example.mvvmpetfinder.data.source.remote.PetFinderApi
 import com.example.mvvmpetfinder.util.Constants
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
 
 class SearchRepository(appContext: Application) {
     private var petFinderApi: PetFinderApi? = null
@@ -36,12 +36,12 @@ class SearchRepository(appContext: Application) {
                 if (r.isSuccessful) {
                     petTypesLiveData.value = r.body()?.types
                 } else {
-                    Log.e("SearchRepository", "Unsuccessful. See above for details")
+                    Timber.e("Unsuccessful. See above for details")
                 }
             }
 
             override fun onFailure(call: Call<PetTypes>, t: Throwable) {
-                Log.e("SearchRepository", "error $t")
+                Timber.e("error $t")
             }
         })
 
