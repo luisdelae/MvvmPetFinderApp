@@ -32,6 +32,7 @@ class RetrofitService {
     /**
      * Creates given service class a retrofit entity with auth token client header
      */
+    // TODO: Add authenticator for auth errors
     fun <S> createAuthService(serviceClass: Class<S>, authToken: String): S {
         val httpClient =
             OkHttpClient.Builder()
