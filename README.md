@@ -17,9 +17,9 @@ Simple Petfinder search application to practice Android development concepts
 + Add no results page
 + Save selected pet type in search for when user hits back in results page
 + Location
-..+ Add zip code to search params
-..+ Get location permissions
-..+ Search based on gps location if no zip provided
+  + Add zip code to search params
+  + Get location permissions
+  + Search based on gps location if no zip provided
 + Retry logic for all api calls
 + Add authenticator to auth'd api calls
 + Work on UI
