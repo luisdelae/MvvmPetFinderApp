@@ -7,5 +7,8 @@ class Constants {
         const val SHARED_PREF_NAME = "PET_FINDER_SHARED_PREFS"
         const val SHARED_PREF_AUTH_TOKEN = "AUTH_TOKEN"
         const val SHARED_PREF_PET_TYPES = "PET_TYPES"
+
+        const val SPINNER_SELECTED_VALUE = "SPINNER_SELECTED_VALUE"
+        const val SPINNER_PET_TYPES = "SPINNER_PET_TYPES"
     }
 }

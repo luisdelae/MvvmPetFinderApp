@@ -13,6 +13,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mvvmpetfinder.R
+import com.example.mvvmpetfinder.util.Constants.Companion.SPINNER_PET_TYPES
+import com.example.mvvmpetfinder.util.Constants.Companion.SPINNER_SELECTED_VALUE
+import timber.log.Timber
+import java.util.ArrayList
 
 /**
  * Shows a simple search screen to begin the search process
@@ -21,6 +25,9 @@ class SearchFragment : Fragment() {
 
     var searchViewModel: SearchViewModel? = null
     var selectedPetType: String = ""
+
+    private lateinit var spinner: Spinner
+    private val petTypeNames = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,28 +43,55 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchViewModel?.petTypesLiveData?.observe(viewLifecycleOwner, Observer { listOfPetTypes ->
-            val petTypeNames = mutableListOf<String>()
+        spinner = view.findViewById(R.id.pet_type_spinner)
 
-            listOfPetTypes.forEach {
-                petTypeNames.add(it.name)
+        // Used when orientation changes, mainly
+        savedInstanceState?.let {
+            if (it.containsKey(SPINNER_PET_TYPES)) {
+                it.getStringArrayList(SPINNER_PET_TYPES)?.let { types ->
+                    petTypeNames.addAll(types.toList())
+                }
+
+                loadPetTypesSpinner(petTypeNames)
             }
 
+            if (it.containsKey(SPINNER_SELECTED_VALUE)) {
+                spinner.setSelection(petTypeNames.indexOf(it.getString(SPINNER_SELECTED_VALUE)))
+            }
+        }
+
+        if (savedInstanceState == null && petTypeNames.isNotEmpty()) {
             loadPetTypesSpinner(petTypeNames)
-            initSearchButtonClick()
-        })
+        }
+
+        if (petTypeNames.isEmpty()) {
+            searchViewModel?.petTypesLiveData?.observe(viewLifecycleOwner, Observer { listOfPetTypes ->
+
+                listOfPetTypes.forEach {
+                    petTypeNames.add(it.name)
+                }
+
+                loadPetTypesSpinner(petTypeNames)
+            })
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putStringArrayList(SPINNER_PET_TYPES, petTypeNames as ArrayList<String>)
+        outState.putString(SPINNER_SELECTED_VALUE, selectedPetType)
     }
 
     private fun loadPetTypesSpinner(petTypeNames: List<String>) {
-        val spinner: Spinner? = view?.findViewById(R.id.pet_type_spinner)
 
         this.context?.let {
             val arrayAdapter = ArrayAdapter<String>(it,
                 android.R.layout.simple_spinner_item, petTypeNames)
 
-            spinner?.adapter = arrayAdapter
+            spinner.adapter = arrayAdapter
 
-            spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     enableSearchButton(false)
                 }
@@ -68,6 +102,8 @@ class SearchFragment : Fragment() {
                 }
             }
         }
+
+        initSearchButtonClick()
     }
 
     // Disable/Enable search button when a selection is made
