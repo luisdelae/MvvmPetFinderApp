@@ -1,6 +1,5 @@
 package com.example.mvvmpetfinder.results
 
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,10 +11,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmpetfinder.R
-import com.example.mvvmpetfinder.data.model.Pets
+import com.example.mvvmpetfinder.data.model.Pet
 import com.example.mvvmpetfinder.data.request.PetRequest
 import timber.log.Timber
-
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -28,6 +26,7 @@ class ResultsFragment : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: ResultsAdapter
     val layoutManager = LinearLayoutManager(this.context)
+    val petsList = mutableListOf<Pet>()
 
     private var isLoading = false
     private var isLastPage = false
@@ -39,7 +38,9 @@ class ResultsFragment : Fragment() {
     ): View? {
 
         resultsViewModel = ViewModelProvider(this).get(ResultsViewModel::class.java)
-        resultsViewModel.getPets(PetRequest(type = args.petType, page = currentPage))
+
+        setLoading(true)
+        resultsViewModel.getPetsInitial(PetRequest(type = args.petType, page = currentPage))
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_results, container, false)
@@ -48,27 +49,22 @@ class ResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        resultsViewModel.petsLiveData.observe(viewLifecycleOwner, Observer { pets ->
+        resultsViewModel.initialPetsLiveData.observe(viewLifecycleOwner, Observer { pets ->
             setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
 
+            setLoading(false)
+
             if (pets.pets.isNotEmpty()) {
-                initRecyclerView(view, pets)
+                petsList.addAll(pets.pets)
+                initRecyclerView(view, petsList)
             } else {
                 showEmptyResults()
             }
         })
     }
 
-    private fun initRecyclerView(view: View, pets: Pets) {
-        recyclerView = view.findViewById(R.id.results_recyclerview)
-
-        recyclerView.layoutManager = layoutManager
-
-        adapter = ResultsAdapter(pets.pets)
-
-        recyclerView.adapter = adapter
-
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    private fun initScrollListener(): RecyclerView.OnScrollListener {
+        return object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -85,17 +81,45 @@ class ResultsFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
+    }
+
+    private fun initRecyclerView(view: View, pets: List<Pet>) {
+        recyclerView = view.findViewById(R.id.results_recyclerview)
+
+        recyclerView.layoutManager = layoutManager
+
+        adapter = ResultsAdapter(pets)
+
+        recyclerView.adapter = adapter
+
+        recyclerView.addOnScrollListener(initScrollListener())
     }
 
     private fun loadMorePets() {
-        isLoading = true
+        setLoading(true)
 
-        resultsViewModel.getPets(PetRequest(type = args.petType, page = currentPage + 1))
+        resultsViewModel.getMorePets(PetRequest(type = args.petType, page = currentPage + 1))
+
+        resultsViewModel.morePetsLiveData.observe(viewLifecycleOwner, Observer { morePets ->
+            setCurrentPage(morePets.paginationInfo.currentPage, morePets.paginationInfo.totalPages)
+
+            setLoading(false)
+
+            petsList.addAll(morePets.pets)
+
+            adapter.notifyItemRangeInserted(adapter.itemCount-1, morePets.pets.count())
+        })
     }
 
     private fun showEmptyResults() {
+        // TODO: Add empty results image
+    }
 
+    private fun setLoading(petsLoading: Boolean) {
+        isLoading = petsLoading
+
+        // TODO: Add loading animation
     }
 
     private fun setCurrentPage(pageNum: Int, lastPage: Int) {
