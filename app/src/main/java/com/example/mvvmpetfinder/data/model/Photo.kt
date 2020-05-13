@@ -1,14 +1,16 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Photo(
-    @SerializedName("small")
+    @JsonProperty("small")
     val small: String,
-    @SerializedName("medium")
+    @JsonProperty("medium")
     val medium: String,
-    @SerializedName("large")
+    @JsonProperty("large")
     val large: String,
-    @SerializedName("full")
+    @JsonProperty("full")
     val full: String
 )

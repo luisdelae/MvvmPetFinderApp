@@ -1,9 +1,11 @@
 package com.example.mvvmpetfinder.data.source
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 /**
  * Handles service creation
@@ -49,9 +51,10 @@ class RetrofitService {
     }
 
     private fun getRetrofitBuilder(httpClient: OkHttpClient): Retrofit.Builder {
+        val mapper = jacksonObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL)
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(mapper))
     }
 }

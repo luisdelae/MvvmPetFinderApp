@@ -1,12 +1,16 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class ContactInfo(
-    @SerializedName("email")
-    val email: String,
-    @SerializedName("phone")
-    val phone: String,
-    @SerializedName("address")
-    val address: Address
+    @JsonProperty("email")
+    val email: String? = "",
+    @JsonProperty("phone")
+    val phone: String? = "",
+    @JsonProperty("address")
+    val address: Address?
 )

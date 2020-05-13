@@ -1,14 +1,18 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class Breeds(
-    @SerializedName("primary")
+    @JsonProperty("primary")
     val primary: String?,
-    @SerializedName("secondary")
+    @JsonProperty("secondary")
     val secondary: String?,
-    @SerializedName("mixed")
+    @JsonProperty("mixed")
     val mixed: Boolean,
-    @SerializedName("unknown")
+    @JsonProperty("unknown")
     val unknown: Boolean
 )

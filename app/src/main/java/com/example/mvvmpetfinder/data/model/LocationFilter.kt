@@ -1,10 +1,12 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class LocationFilter(
-    @SerializedName("location")
+    @JsonProperty("location")
     val zipCode: String,
-    @SerializedName("distance")
+    @JsonProperty("distance")
     val distanceMiles: Int
 )

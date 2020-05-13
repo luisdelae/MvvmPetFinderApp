@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
+import timber.log.Timber
 
 
 /**
@@ -30,6 +31,7 @@ class ResultsFragment : Fragment() {
 
     private var isLoading = false
     private var isLastPage = false
+    private var currentPage = FIRST_PAGE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +39,7 @@ class ResultsFragment : Fragment() {
     ): View? {
 
         resultsViewModel = ViewModelProvider(this).get(ResultsViewModel::class.java)
-        resultsViewModel.getPets(PetRequest(type = args.petType, page = FIRST_PAGE))
+        resultsViewModel.getPets(PetRequest(type = args.petType, page = currentPage))
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_results, container, false)
@@ -46,20 +48,17 @@ class ResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        resultsViewModel.petsLiveData?.observe(viewLifecycleOwner, Observer { pets ->
-//            pets.pets.forEach {
-//                Timber.d("pet gson tree: ${ Gson().toJsonTree(it) }")
-//            }
+        resultsViewModel.petsLiveData.observe(viewLifecycleOwner, Observer { pets ->
+            setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
 
             if (pets.pets.isNotEmpty()) {
                 initRecyclerView(view, pets)
             } else {
-                // TODO: Show some results not found view
+                showEmptyResults()
             }
         })
     }
 
-    // TODO: Add scroll listener for pagination
     private fun initRecyclerView(view: View, pets: Pets) {
         recyclerView = view.findViewById(R.id.results_recyclerview)
 
@@ -81,6 +80,7 @@ class ResultsFragment : Fragment() {
                 if (!isLoading && !isLastPage) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0 && totalItemCount >= PAGE_SIZE
                     ) {
+                        Timber.d("Loading more pets.")
                         loadMorePets()
                     }
                 }
@@ -89,7 +89,19 @@ class ResultsFragment : Fragment() {
     }
 
     private fun loadMorePets() {
+        isLoading = true
 
+        resultsViewModel.getPets(PetRequest(type = args.petType, page = currentPage + 1))
+    }
+
+    private fun showEmptyResults() {
+
+    }
+
+    private fun setCurrentPage(pageNum: Int, lastPage: Int) {
+        currentPage = pageNum
+
+        isLastPage = currentPage == lastPage
     }
 
     companion object {

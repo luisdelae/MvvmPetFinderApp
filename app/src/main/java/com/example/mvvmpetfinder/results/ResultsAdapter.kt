@@ -31,7 +31,7 @@ class ResultsAdapter(private val dataSet: List<Pet>) :
 
         // Placeholder/Error image by Elisabeth Leunert
         // https://pixabay.com/users/Leunert-2332372/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1517090
-        Picasso.get().load( dataSet[position].photos.firstOrNull()?.small)
+        Picasso.get().load( dataSet[position].photos?.firstOrNull()?.small)
             .fit()
             .placeholder(R.drawable.pet_placeholder)
             .error(R.drawable.pet_placeholder)
@@ -41,9 +41,11 @@ class ResultsAdapter(private val dataSet: List<Pet>) :
         holder.age.text = "Age: ${ dataSet[position].age }"
         holder.breed.text = "Breed: ${ dataSet[position].breeds.primary }" // Build this separately to include other breeds/mix
         holder.gender.text = "Gender: ${ dataSet[position].gender }"
-        holder.goodWithDogs.visibility =  if (dataSet[position].goodWith.dogs) { VISIBLE } else { GONE }
-        holder.goodWithCats.visibility =  if (dataSet[position].goodWith.cats) { VISIBLE } else { GONE }
-        holder.goodWithChildren.visibility =  if (dataSet[position].goodWith.children) { VISIBLE } else { GONE }
+        dataSet[position].goodWith?.let {
+            holder.goodWithDogs.visibility =  if (it.dogs) { VISIBLE } else { GONE }
+            holder.goodWithCats.visibility =  if (it.cats) { VISIBLE } else { GONE }
+            holder.goodWithChildren.visibility =  if (it.children) { VISIBLE } else { GONE }
+        }
     }
 
     override fun getItemId(position: Int): Long {

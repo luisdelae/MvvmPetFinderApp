@@ -1,12 +1,16 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class GoodWith(
-    @SerializedName("children")
+    @JsonProperty("children")
     val children: Boolean,
-    @SerializedName("dogs")
+    @JsonProperty("dogs")
     val dogs: Boolean,
-    @SerializedName("cats")
+    @JsonProperty("cats")
     val cats: Boolean
 )

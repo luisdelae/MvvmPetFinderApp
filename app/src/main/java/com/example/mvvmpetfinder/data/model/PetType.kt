@@ -1,19 +1,21 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class PetTypes(
-    @SerializedName("types")
+    @JsonProperty("types")
     val types: ArrayList<PetType>
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class PetType(
-    @SerializedName("name")
+    @JsonProperty("name")
     val name: String,
-    @SerializedName("coats")
+    @JsonProperty("coats")
     val coats: List<String>,
-    @SerializedName("colors")
+    @JsonProperty("colors")
     val colors: List<String>,
-    @SerializedName("genders")
+    @JsonProperty("genders")
     val genders: List<String>
 )

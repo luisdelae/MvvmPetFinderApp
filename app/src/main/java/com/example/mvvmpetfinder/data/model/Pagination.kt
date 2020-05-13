@@ -1,14 +1,16 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Pagination(
-    @SerializedName("count_per_page")
+    @JsonProperty("count_per_page")
     val countPerPage: Int,
-    @SerializedName("total_count")
+    @JsonProperty("total_count")
     val totalCount: Int,
-    @SerializedName("current_page")
+    @JsonProperty("current_page")
     val currentPage: Int,
-    @SerializedName("total_pages")
+    @JsonProperty("total_pages")
     val totalPages: Int
 )

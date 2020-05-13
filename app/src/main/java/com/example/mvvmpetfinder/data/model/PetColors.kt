@@ -1,12 +1,14 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class PetColors(
-    @SerializedName("primary")
+    @JsonProperty("primary")
     val primary: String?,
-    @SerializedName("secondary")
+    @JsonProperty("secondary")
     val secondary: String?,
-    @SerializedName("tertiary")
+    @JsonProperty("tertiary")
     val tertiary: String?
 )

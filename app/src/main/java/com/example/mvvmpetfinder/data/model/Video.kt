@@ -1,8 +1,8 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class Video(
-    @SerializedName("embed")
+    @JsonProperty("embed")
     val embededVideo: String
 )

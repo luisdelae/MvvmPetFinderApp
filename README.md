@@ -12,7 +12,7 @@ Simple Petfinder search application to practice Android development concepts
 + LiveData
 + Retrofit
 
-## To do:
+## To do
 + Add pagination to the search
 + Add no results page
 + Save selected pet type in search for when user hits back in results page
@@ -22,9 +22,10 @@ Simple Petfinder search application to practice Android development concepts
   + Search based on gps location if no zip provided
 + Retry logic for all api calls
 + Add authenticator to auth'd api calls
++ Try DataBinding for recyclerview adapter
 + Work on UI
-+ Change Gson to Moshi
++ Change Gson to Jackson
 + Add DI using Dagger 
 + Implement Coroutines
-
-
++ Implement unit tests
++ Try Paging w/ data source

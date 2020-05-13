@@ -1,16 +1,20 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class Attributes(
-    @SerializedName("spayed_neutered")
+    @JsonProperty("spayed_neutered")
     val spayedNeutered: Boolean,
-    @SerializedName("house_trained")
+    @JsonProperty("house_trained")
     val houseTrained: Boolean,
-    @SerializedName("declawed")
+    @JsonProperty("declawed")
     val declawed: Boolean,
-    @SerializedName("special_needs")
+    @JsonProperty("special_needs")
     val specialNeeds: Boolean,
-    @SerializedName("shots_current")
+    @JsonProperty("shots_current")
     val shortsCurrent: Boolean
 )

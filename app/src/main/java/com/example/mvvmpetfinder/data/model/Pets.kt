@@ -1,58 +1,63 @@
 package com.example.mvvmpetfinder.data.model
 
-import com.google.gson.annotations.SerializedName
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Pets(
-    @SerializedName("animals")
+    @JsonProperty("animals")
     val pets: ArrayList<Pet>,
-    @SerializedName("pagination")
+    @JsonProperty("pagination")
     val paginationInfo: Pagination
 )
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class Pet(
-    @SerializedName("id")
+    @JsonProperty("id")
     val id: Int,
-    @SerializedName("organization_id")
-    val organizationId: String,
-    @SerializedName("url")
-    val url: String,
-    @SerializedName("type")
-    val type: String,
-    @SerializedName("species")
-    val species: String,
-    @SerializedName("breeds")
+    @JsonProperty("organization_id")
+    val organizationId: String? = "",
+    @JsonProperty("url")
+    val url: String? = "",
+    @JsonProperty("type")
+    val type: String? = "",
+    @JsonProperty("species")
+    val species: String? = "",
+    @JsonProperty("breeds")
     val breeds: Breeds,
-    @SerializedName("colors")
+    @JsonProperty("colors")
     val colors: PetColors,
-    @SerializedName("age")
-    val age: String,
-    @SerializedName("gender")
-    val gender: String,
-    @SerializedName("size")
-    val size: String,
-    @SerializedName("coat")
-    val coat: String,
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("description")
-    val description: String,
-    @SerializedName("photos")
-    val photos: List<Photo>,
-    @SerializedName("videos")
-    val videos: List<Video>,
-    @SerializedName("status")
-    val status: String,
-    @SerializedName("attributes")
-    val attributes: Attributes,
-    @SerializedName("environment")
-    val goodWith: GoodWith,
-    @SerializedName("tags")
-    val tags: List<String>,
-    @SerializedName("contact")
-    val contactInfo: ContactInfo,
+    @JsonProperty("age")
+    val age: String? = "",
+    @JsonProperty("gender")
+    val gender: String? = "",
+    @JsonProperty("size")
+    val size: String? = "",
+    @JsonProperty("coat")
+    val coat: String? = "",
+    @JsonProperty("name")
+    val name: String? = "",
+    @JsonProperty("description")
+    val description: String? = "",
+    @JsonProperty("photos")
+    val photos: List<Photo>?,
+    @JsonProperty("videos")
+    val videos: List<Video>?,
+    @JsonProperty("status")
+    val status: String? = "",
+    @JsonProperty("attributes")
+    val attributes: Attributes?,
+    @JsonProperty("environment")
+    val goodWith: GoodWith?,
+    @JsonProperty("tags")
+    val tags: List<String>?,
+    @JsonProperty("contact")
+    val contactInfo: ContactInfo?,
     // ISO8601 format
-    @SerializedName("published_at")
-    val publishedDate: String,
-    @SerializedName("distance")
-    val distance: Float
+    @JsonProperty("published_at")
+    val publishedDate: String? = "",
+    @JsonProperty("distance")
+    val distance: Float? = 0F
 )

@@ -5,15 +5,16 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
+import com.example.mvvmpetfinder.data.request.toMap
 import com.example.mvvmpetfinder.data.source.RetrofitService
 import com.example.mvvmpetfinder.util.Constants
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.QueryMap
 import timber.log.Timber
+import java.lang.reflect.Type
 
 class ResultsRepository(appContext: Application) {
     private var petFinderApi: PetFinderApi? = null
@@ -36,10 +37,10 @@ class ResultsRepository(appContext: Application) {
 
         /**
          *  Convert request to [HashMap] for the [PetFinderApi.getPets] [QueryMap]
+         *  Gson builder override forces [Double] to return as [Long] so that we may send the
+         *  correct data type for the [PetRequest]
          */
-        val gson = Gson()
-        val json = gson.toJson(petRequest)
-        val petRequestData: Map<String, Any> = gson.fromJson(json, object : TypeToken<HashMap<String, Any>>() {}.type)
+        val petRequestData: Map<String, Any> = petRequest.toMap()
 
         petFinderApi?.getPets(petRequestData)?.enqueue(object : Callback<Pets> {
             override fun onFailure(call: Call<Pets>, t: Throwable) {
