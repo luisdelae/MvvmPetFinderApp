@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.data.model.Pet
 import com.example.mvvmpetfinder.data.request.PetRequest
+import com.example.mvvmpetfinder.util.Constants
 import timber.log.Timber
 
 /**
@@ -21,12 +25,16 @@ import timber.log.Timber
 class ResultsFragment : Fragment() {
 
     private val args: ResultsFragmentArgs by navArgs()
-    lateinit var resultsViewModel: ResultsViewModel
+    private lateinit var resultsViewModel: ResultsViewModel
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var adapter: ResultsAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ResultsAdapter
     val layoutManager = LinearLayoutManager(this.context)
-    val petsList = mutableListOf<Pet>()
+    private val petTypeNames = mutableListOf<String>()
+    private val petsList = mutableListOf<Pet>()
+
+    private lateinit var spinner: Spinner
+    private var selectedPetType: String = ""
 
     private var isLoading = false
     private var isLastPage = false
@@ -36,6 +44,9 @@ class ResultsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        selectedPetType = args.petType
+        petTypeNames.addAll(args.petTypeList)
 
         resultsViewModel = ViewModelProvider(this).get(ResultsViewModel::class.java)
 
@@ -49,6 +60,12 @@ class ResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        spinner = view.findViewById(R.id.pet_type_spinner)
+
+        loadPetTypesSpinner(petTypeNames)
+
+        spinner.setSelection(petTypeNames.indexOf(selectedPetType))
+
         resultsViewModel.initialPetsLiveData.observe(viewLifecycleOwner, Observer { pets ->
             setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
 
@@ -61,6 +78,29 @@ class ResultsFragment : Fragment() {
                 showEmptyResults()
             }
         })
+    }
+
+    private fun loadPetTypesSpinner(petTypeNames: List<String>) {
+
+        this.context?.let {
+            val arrayAdapter = ArrayAdapter<String>(it,
+                android.R.layout.simple_spinner_item, petTypeNames)
+
+            spinner.adapter = arrayAdapter
+
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    enableSearchButton(false)
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    selectedPetType = petTypeNames[position]
+//                    enableSearchButton(true)
+                }
+            }
+        }
+
+//        initSearchButtonClick()
     }
 
     private fun initScrollListener(): RecyclerView.OnScrollListener {

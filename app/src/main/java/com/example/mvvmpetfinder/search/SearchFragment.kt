@@ -116,7 +116,11 @@ class SearchFragment : Fragment() {
     private fun initSearchButtonClick() {
         val button: Button? = view?.findViewById(R.id.search_button)
         button?.setOnClickListener {
-            val action = SearchFragmentDirections.actionSearchFragmentToResultsFragment(selectedPetType)
+            val action = SearchFragmentDirections
+                .actionSearchFragmentToResultsFragment(
+                    petType = selectedPetType,
+                    petTypeList = petTypeNames.toTypedArray()
+                )
             findNavController().navigate(action)
         }
     }
