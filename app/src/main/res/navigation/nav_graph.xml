@@ -41,5 +41,8 @@
         <argument
             android:name="petTypeList"
             app:argType="string[]" />
+        <argument
+            android:name="zipCode"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -35,6 +35,7 @@ class ResultsFragment : Fragment() {
 
     private lateinit var spinner: Spinner
     private var selectedPetType: String = ""
+    private var zipCode: String = ""
 
     private var isLoading = false
     private var isLastPage = false
@@ -47,11 +48,14 @@ class ResultsFragment : Fragment() {
 
         selectedPetType = args.petType
         petTypeNames.addAll(args.petTypeList)
+        zipCode = args.zipCode
 
         resultsViewModel = ViewModelProvider(this).get(ResultsViewModel::class.java)
 
         setLoading(true)
-        resultsViewModel.getPetsInitial(PetRequest(type = args.petType, page = currentPage))
+        resultsViewModel.getPetsInitial(
+            PetRequest(type = args.petType, page = currentPage, location = zipCode)
+        )
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_results, container, false)

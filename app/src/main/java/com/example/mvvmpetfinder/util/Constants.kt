@@ -10,5 +10,6 @@ class Constants {
 
         const val SPINNER_SELECTED_VALUE = "SPINNER_SELECTED_VALUE"
         const val SPINNER_PET_TYPES = "SPINNER_PET_TYPES"
+        const val ZIP_CODE_SELECTED_VALUE = "ZIP_CODE_SELECTED_VALUE"
     }
 }
