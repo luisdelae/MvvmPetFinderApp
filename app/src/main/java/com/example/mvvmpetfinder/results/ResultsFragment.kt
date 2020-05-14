@@ -30,13 +30,12 @@ class ResultsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ResultsAdapter
-    val layoutManager = LinearLayoutManager(this.context)
     private val petTypeNames = mutableListOf<String>()
     private val petsList = mutableListOf<Pet>()
 
     private lateinit var spinner: Spinner
     private var selectedPetType: String = ""
-    private var zipCode: String = ""
+    private var zipCode: String? = null
 
     private var isLoading = false
     private var isLastPage = false
@@ -48,15 +47,10 @@ class ResultsFragment : Fragment() {
     ): View? {
 
         selectedPetType = args.petType
-        petTypeNames.addAll(args.petTypeList)
+        if (petTypeNames.isEmpty()) { petTypeNames.addAll(args.petTypeList) }
         zipCode = args.zipCode
 
         resultsViewModel = ViewModelProvider(this).get(ResultsViewModel::class.java)
-
-        setLoading(true)
-        resultsViewModel.getPetsInitial(
-            PetRequest(type = args.petType, page = currentPage, location = zipCode)
-        )
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_results, container, false)
@@ -71,18 +65,33 @@ class ResultsFragment : Fragment() {
 
         spinner.setSelection(petTypeNames.indexOf(selectedPetType))
 
-        resultsViewModel.initialPetsLiveData.observe(viewLifecycleOwner, Observer { pets ->
-            setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
+        // Should only ever be empty in this part of the lifecycle when it is fist created
+        // Otherwise it should never be empty as the only way to go *back* to this fragment
+        // is to hit back on the details fragment, which requires any non-zero amount of results
+        if (petsList.isNotEmpty()) {
+            initRecyclerView(view)
+        } else {
+            setLoading(true)
 
-            setLoading(false)
-
-            if (pets.pets.isNotEmpty()) {
-                petsList.addAll(pets.pets)
-                initRecyclerView(view, petsList)
+            if (zipCode.isNullOrEmpty()) {
+                resultsViewModel.getPetsInitial(PetRequest(type = args.petType, page = currentPage))
             } else {
-                showEmptyResults()
+                resultsViewModel.getPetsInitial(
+                    PetRequest(type = args.petType, page = currentPage, location = zipCode)
+                )
             }
-        })
+
+            resultsViewModel.initialPetsLiveData.observe(viewLifecycleOwner, Observer { pets ->
+                setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
+
+                if (pets.pets.isNotEmpty()) {
+                    petsList.addAll(pets.pets)
+                    initRecyclerView(view)
+                } else {
+                    showEmptyResults()
+                }
+            })
+        }
     }
 
     private fun loadPetTypesSpinner(petTypeNames: List<String>) {
@@ -108,7 +117,7 @@ class ResultsFragment : Fragment() {
 //        initSearchButtonClick()
     }
 
-    private fun initScrollListener(): RecyclerView.OnScrollListener {
+    private fun initScrollListener(layoutManager: LinearLayoutManager): RecyclerView.OnScrollListener {
         return object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -129,16 +138,22 @@ class ResultsFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(view: View, pets: List<Pet>) {
+    private fun initRecyclerView(view: View) {
         recyclerView = view.findViewById(R.id.results_recyclerview)
 
-        recyclerView.layoutManager = layoutManager
+        val layoutManager = LinearLayoutManager(this.context)
 
-        adapter = ResultsAdapter(pets, findNavController())
+        if (recyclerView.layoutManager == null) {
+            recyclerView.layoutManager = layoutManager
+        }
+
+        setLoading(false)
+
+        adapter = ResultsAdapter(petsList, findNavController())
 
         recyclerView.adapter = adapter
 
-        recyclerView.addOnScrollListener(initScrollListener())
+        recyclerView.addOnScrollListener(initScrollListener(layoutManager))
     }
 
     private fun loadMorePets() {

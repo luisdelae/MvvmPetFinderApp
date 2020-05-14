@@ -9,6 +9,8 @@ import android.view.ViewGroup
 
 import com.example.mvvmpetfinder.R
 
+// TODO: Build the actual fragment view
+// TODO: Seem to have all data needed. Do I though? If so, no repository needed. Delete it.
 class PetDetailsFragment : Fragment() {
 
     companion object {
@@ -29,5 +31,4 @@ class PetDetailsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(PetDetailsViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }
