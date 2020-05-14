@@ -13,10 +13,6 @@ import com.example.mvvmpetfinder.R
 // TODO: Seem to have all data needed. Do I though? If so, no repository needed. Delete it.
 class PetDetailsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = PetDetailsFragment()
-    }
-
     private lateinit var viewModel: PetDetailsViewModel
 
     override fun onCreateView(
@@ -26,9 +22,5 @@ class PetDetailsFragment : Fragment() {
         return inflater.inflate(R.layout.pet_details_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(PetDetailsViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
 }

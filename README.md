@@ -17,16 +17,18 @@ Simple Petfinder search application to practice Android development concepts
 + ~~Save selected pet type in search for when user hits back in results page~~
 + ~~Pass animal type list and selection to result fragment~~
 + Location
-  + Add zip code to search params
-  + Get location permissions
-  + Search based on gps location if no zip provided
+  + ~~Add zip code to search params~~
+  + ~~Global results if no zip provided~~
+  + Maybe: Get location permissions
+  + Maybe: Search based on gps location if no zip provided
 + Add on click to each result
-  + Take user to detailed result on click
+  + ~~Take user to detailed result on click~~
++ Build actual details fragment
 + Add no results page
 + Add loading animation
 + Retry logic for all api calls
 + Add authenticator to auth'd api calls
-+ Try DataBinding for recyclerview adapter
++ Try DataBinding for recyclerview adapte
 + Work on UI
 + ~~Change Gson to Jackson~~
 + Add DI using Dagger 

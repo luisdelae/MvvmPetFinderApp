@@ -26,4 +26,6 @@
     <string name="breed_textview">Breed:</string>
     <string name="gender_textview">Gender:</string>
     <string name="good_with_textview">Good with:</string>
+    <string name="pet_name_greeting">Meet %1$s!</string>
+    <string name="meet">Meet</string>
 </resources>
