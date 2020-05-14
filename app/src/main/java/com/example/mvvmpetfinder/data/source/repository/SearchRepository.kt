@@ -1,10 +1,11 @@
-package com.example.mvvmpetfinder.data.source
+package com.example.mvvmpetfinder.data.source.repository
 
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.PetType
 import com.example.mvvmpetfinder.data.model.PetTypes
+import com.example.mvvmpetfinder.data.source.RetrofitService
 import com.example.mvvmpetfinder.data.source.remote.PetFinderApi
 import com.example.mvvmpetfinder.util.Constants
 import retrofit2.Call
@@ -24,7 +25,8 @@ class SearchRepository(appContext: Application) {
         val token = sharedPref.getString(Constants.SHARED_PREF_AUTH_TOKEN, Constants.EMPTY_STRING)
 
         token?.let {
-            petFinderApi = RetrofitService().createAuthService(PetFinderApi::class.java, token)
+            petFinderApi = RetrofitService()
+                .createAuthService(PetFinderApi::class.java, token)
         }
     }
 

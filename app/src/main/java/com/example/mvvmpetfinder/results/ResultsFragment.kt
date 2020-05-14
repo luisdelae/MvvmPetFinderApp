@@ -10,6 +10,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -133,7 +134,7 @@ class ResultsFragment : Fragment() {
 
         recyclerView.layoutManager = layoutManager
 
-        adapter = ResultsAdapter(pets)
+        adapter = ResultsAdapter(pets, findNavController())
 
         recyclerView.adapter = adapter
 

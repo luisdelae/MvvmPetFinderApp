@@ -1,8 +1,10 @@
 package com.example.mvvmpetfinder.data.model
 
+import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import kotlinx.android.parcel.Parcelize
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Pets(
@@ -14,6 +16,7 @@ class Pets(
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Parcelize
 class Pet(
     @JsonProperty("id")
     val id: Int,
@@ -42,9 +45,9 @@ class Pet(
     @JsonProperty("description")
     val description: String? = "",
     @JsonProperty("photos")
-    val photos: List<Photo>?,
+    val photos: List<Photo>? = listOf(),
     @JsonProperty("videos")
-    val videos: List<Video>?,
+    val videos: List<Video>? = listOf(),
     @JsonProperty("status")
     val status: String? = "",
     @JsonProperty("attributes")
@@ -52,7 +55,7 @@ class Pet(
     @JsonProperty("environment")
     val goodWith: GoodWith?,
     @JsonProperty("tags")
-    val tags: List<String>?,
+    val tags: List<String>? = listOf(),
     @JsonProperty("contact")
     val contactInfo: ContactInfo?,
     // ISO8601 format
@@ -60,4 +63,4 @@ class Pet(
     val publishedDate: String? = "",
     @JsonProperty("distance")
     val distance: Float? = 0F
-)
+) : Parcelable

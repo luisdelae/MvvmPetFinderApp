@@ -7,13 +7,17 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.data.model.Pet
 import com.squareup.picasso.Picasso
 import timber.log.Timber
 
-class ResultsAdapter(private val dataSet: List<Pet>) :
+class ResultsAdapter(
+    private val dataSet: List<Pet>,
+    private val navController: NavController
+) :
     RecyclerView.Adapter<ResultsAdapter.PetViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PetViewHolder {
@@ -31,7 +35,7 @@ class ResultsAdapter(private val dataSet: List<Pet>) :
 
         // Placeholder/Error image by Elisabeth Leunert
         // https://pixabay.com/users/Leunert-2332372/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1517090
-        Picasso.get().load( dataSet[position].photos?.firstOrNull()?.small)
+        Picasso.get().load(dataSet[position].photos?.firstOrNull()?.small)
             .fit()
             .placeholder(R.drawable.pet_placeholder)
             .error(R.drawable.pet_placeholder)
@@ -46,6 +50,11 @@ class ResultsAdapter(private val dataSet: List<Pet>) :
             holder.goodWithCats.visibility =  if (it.cats) { VISIBLE } else { GONE }
             holder.goodWithChildren.visibility =  if (it.children) { VISIBLE } else { GONE }
         }
+
+        holder.itemView.setOnClickListener {
+            val action = ResultsFragmentDirections.actionResultsFragmentToPetDetailsFragment(dataSet[position])
+            navController.navigate(action)
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -54,20 +63,22 @@ class ResultsAdapter(private val dataSet: List<Pet>) :
 
     class PetViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-        val image = view.findViewById<ImageView>(R.id.pet_image)
-        val name = view.findViewById<TextView>(R.id.pet_name)
-        val age = view.findViewById<TextView>(R.id.pet_age)
-        val breed = view.findViewById<TextView>(R.id.pet_breed)
-        val gender = view.findViewById<TextView>(R.id.pet_gender)
-        val goodWithDogs = view.findViewById<ImageView>(R.id.good_with_dogs)
-        val goodWithCats = view.findViewById<ImageView>(R.id.good_with_cats)
-        val goodWithChildren = view.findViewById<ImageView>(R.id.good_with_children)
+        val image: ImageView = view.findViewById(R.id.pet_image)
+        val name: TextView = view.findViewById(R.id.pet_name)
+        val age: TextView = view.findViewById(R.id.pet_age)
+        val breed: TextView = view.findViewById(R.id.pet_breed)
+        val gender: TextView = view.findViewById(R.id.pet_gender)
+        val goodWithDogs: ImageView = view.findViewById(R.id.good_with_dogs)
+        val goodWithCats: ImageView = view.findViewById(R.id.good_with_cats)
+        val goodWithChildren: ImageView = view.findViewById(R.id.good_with_children)
 
-        init {
-            view.setOnClickListener {
-                Timber.d("Clicked adapter position: $adapterPosition")
-                Timber.d("Id at adapter position: $itemId")
-            }
-        }
+//        init {
+//            view.setOnClickListener {
+//                Timber.d("Clicked adapter position: $adapterPosition")
+//                Timber.d("Id at adapter position: $itemId")
+//
+//                val action = ResultsFragmentDirections.actionResultsFragmentToPetDetailsFragment(petList)
+//            }
+//        }
     }
 }

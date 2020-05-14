@@ -44,6 +44,7 @@ class SearchFragment : Fragment() {
 
         spinner = view.findViewById(R.id.pet_type_spinner)
 
+        // TODO: Handle user entering zip lower than 5 chars
         zipCodeEditText = view.findViewById(R.id.zip_code)
 
         // Used when orientation changes, mainly

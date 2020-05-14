@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.PetType
-import com.example.mvvmpetfinder.data.source.SearchRepository
+import com.example.mvvmpetfinder.data.source.repository.SearchRepository
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
@@ -13,7 +13,10 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     private var searchRepository: SearchRepository? = null
 
     init {
-        searchRepository = SearchRepository(application)
+        searchRepository =
+            SearchRepository(
+                application
+            )
         getPetTypes()
     }
 

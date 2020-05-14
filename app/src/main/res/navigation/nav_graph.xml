@@ -44,5 +44,17 @@
         <argument
             android:name="zipCode"
             app:argType="string" />
+        <action
+            android:id="@+id/action_ResultsFragment_to_PetDetailsFragment"
+            app:destination="@id/PetDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PetDetailsFragment"
+        android:name="com.example.mvvmpetfinder.pet_details.PetDetailsFragment"
+        android:label="pet_details_fragment"
+        tools:layout="@layout/pet_details_fragment" >
+        <argument
+            android:name="PetDetails"
+            app:argType="com.example.mvvmpetfinder.data.model.Pet" />
     </fragment>
 </navigation>

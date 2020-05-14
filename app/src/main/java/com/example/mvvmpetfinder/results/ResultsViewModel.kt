@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
-import com.example.mvvmpetfinder.data.source.remote.ResultsRepository
+import com.example.mvvmpetfinder.data.source.repository.ResultsRepository
 
 class ResultsViewModel(application: Application): AndroidViewModel(application) {
     var initialPetsLiveData = MutableLiveData<Pets>()
@@ -14,7 +14,10 @@ class ResultsViewModel(application: Application): AndroidViewModel(application) 
     private var resultsRepository: ResultsRepository? = null
 
     init {
-        resultsRepository = ResultsRepository(application)
+        resultsRepository =
+            ResultsRepository(
+                application
+            )
     }
 
     fun getPetsInitial(petRequest: PetRequest) {

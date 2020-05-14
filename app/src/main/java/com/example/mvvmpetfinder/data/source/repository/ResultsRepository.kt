@@ -1,4 +1,4 @@
-package com.example.mvvmpetfinder.data.source.remote
+package com.example.mvvmpetfinder.data.source.repository
 
 import android.app.Application
 import android.content.SharedPreferences
@@ -7,14 +7,13 @@ import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
 import com.example.mvvmpetfinder.data.request.toMap
 import com.example.mvvmpetfinder.data.source.RetrofitService
+import com.example.mvvmpetfinder.data.source.remote.PetFinderApi
 import com.example.mvvmpetfinder.util.Constants
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.http.QueryMap
 import timber.log.Timber
-import java.lang.reflect.Type
 
 class ResultsRepository(appContext: Application) {
     private var petFinderApi: PetFinderApi? = null
@@ -28,7 +27,8 @@ class ResultsRepository(appContext: Application) {
         val token = sharedPref.getString(Constants.SHARED_PREF_AUTH_TOKEN, Constants.EMPTY_STRING)
 
         token?.let {
-            petFinderApi = RetrofitService().createAuthService(PetFinderApi::class.java, token)
+            petFinderApi = RetrofitService()
+                .createAuthService(PetFinderApi::class.java, token)
         }
     }
 

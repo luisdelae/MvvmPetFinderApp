@@ -1,7 +1,8 @@
-package com.example.mvvmpetfinder.data.source
+package com.example.mvvmpetfinder.data.source.repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Token
+import com.example.mvvmpetfinder.data.source.RetrofitService
 import com.example.mvvmpetfinder.data.source.remote.TokenApi
 import retrofit2.Call
 import retrofit2.Callback
@@ -10,7 +11,8 @@ import timber.log.Timber
 
 class TokenRepository {
 
-    private var tokenApi = RetrofitService().createNoAuthService(TokenApi::class.java)
+    private var tokenApi = RetrofitService()
+        .createNoAuthService(TokenApi::class.java)
 
     fun getToken(): MutableLiveData<Token> {
         val tokenLiveData = MutableLiveData<Token>()

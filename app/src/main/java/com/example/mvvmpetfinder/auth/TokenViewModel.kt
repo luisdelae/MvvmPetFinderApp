@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmpetfinder.data.model.Token
-import com.example.mvvmpetfinder.data.source.TokenRepository
+import com.example.mvvmpetfinder.data.source.repository.TokenRepository
 import com.example.mvvmpetfinder.util.Constants.Companion.EMPTY_STRING
 import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_AUTH_TOKEN
 import com.example.mvvmpetfinder.util.Constants.Companion.SHARED_PREF_NAME
@@ -18,7 +18,8 @@ class TokenViewModel(application: Application): AndroidViewModel(application) {
     private var tokenRepository: TokenRepository? = null
 
     init {
-        tokenRepository =  TokenRepository()
+        tokenRepository =
+            TokenRepository()
         getToken()
     }
 
