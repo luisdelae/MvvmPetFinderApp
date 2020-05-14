@@ -149,7 +149,7 @@ class ResultsFragment : Fragment() {
 
         setLoading(false)
 
-        adapter = ResultsAdapter(petsList, findNavController())
+        adapter = ResultsAdapter(requireContext(), petsList, findNavController())
 
         recyclerView.adapter = adapter
 

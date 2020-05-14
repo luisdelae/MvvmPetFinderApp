@@ -8,10 +8,6 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
-    <string name="hello_blank_fragment">Hello splash fragment</string>
     <string name="content_description_top_search">Image for top of search view</string>
     <string name="pet_type_string">What kind of pet are you looking for?</string>
     <string name="search">SEARCH</string>
@@ -28,4 +24,10 @@
     <string name="good_with_textview">Good with:</string>
     <string name="pet_name_greeting">Meet %1$s!</string>
     <string name="meet">Meet</string>
+
+    <string name="pet_name_with_label">Name: %1$s</string>
+    <string name="pet_age_with_label">Age %1$s</string>
+    <string name="pet_breed_with_label">Breed %1$s</string>
+    <string name="pet_gender_with_label">Gender %1$s</string>
+
 </resources>

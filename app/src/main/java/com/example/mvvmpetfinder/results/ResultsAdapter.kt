@@ -1,5 +1,6 @@
 package com.example.mvvmpetfinder.results
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -12,9 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.data.model.Pet
 import com.squareup.picasso.Picasso
-import timber.log.Timber
 
 class ResultsAdapter(
+    private val context: Context,
     private val dataSet: List<Pet>,
     private val navController: NavController
 ) :
@@ -41,10 +42,11 @@ class ResultsAdapter(
             .error(R.drawable.pet_placeholder)
             .into(holder.image)
 
-        holder.name.text = "Name: ${ dataSet[position].name }"
-        holder.age.text = "Age: ${ dataSet[position].age }"
-        holder.breed.text = "Breed: ${ dataSet[position].breeds.primary }" // Build this separately to include other breeds/mix
-        holder.gender.text = "Gender: ${ dataSet[position].gender }"
+        holder.name.text = context.getString(R.string.pet_name_with_label, dataSet[position].name)
+        holder.age.text = context.getString(R.string.pet_age_with_label, dataSet[position].age)
+        // TODO: Build this separately to include other breeds/mix
+        holder.breed.text = context.getString(R.string.pet_breed_with_label, dataSet[position].breeds)
+        holder.gender.text = context.getString(R.string.pet_gender_with_label, dataSet[position].gender)
         dataSet[position].goodWith?.let {
             holder.goodWithDogs.visibility =  if (it.dogs) { VISIBLE } else { GONE }
             holder.goodWithCats.visibility =  if (it.cats) { VISIBLE } else { GONE }
@@ -62,7 +64,6 @@ class ResultsAdapter(
     }
 
     class PetViewHolder(view: View): RecyclerView.ViewHolder(view) {
-
         val image: ImageView = view.findViewById(R.id.pet_image)
         val name: TextView = view.findViewById(R.id.pet_name)
         val age: TextView = view.findViewById(R.id.pet_age)
@@ -71,14 +72,5 @@ class ResultsAdapter(
         val goodWithDogs: ImageView = view.findViewById(R.id.good_with_dogs)
         val goodWithCats: ImageView = view.findViewById(R.id.good_with_cats)
         val goodWithChildren: ImageView = view.findViewById(R.id.good_with_children)
-
-//        init {
-//            view.setOnClickListener {
-//                Timber.d("Clicked adapter position: $adapterPosition")
-//                Timber.d("Id at adapter position: $itemId")
-//
-//                val action = ResultsFragmentDirections.actionResultsFragmentToPetDetailsFragment(petList)
-//            }
-//        }
     }
 }
