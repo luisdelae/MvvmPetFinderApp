@@ -13,8 +13,8 @@ class PetImageViewPagerAdapter(private val images: List<Photo>): PagerAdapter() 
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
-        val view: View =
-            LayoutInflater.from(container.context).inflate(R.layout.pet_image_layout, null)
+        val view: View = LayoutInflater.from(container.context)
+            .inflate(R.layout.pet_image_layout, container,false)
 
         val imageView: ImageView = view.findViewById(R.id.pet_details_image)
 

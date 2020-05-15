@@ -17,11 +17,14 @@
     <string name="good_with_dogs">Good with dogs.</string>
     <string name="good_with_cats">Good with cats.</string>
     <string name="good_with_children">Good with children.</string>
-    <string name="name_textview">Name:</string>
-    <string name="age_textview">Age:</string>
-    <string name="breed_textview">Breed:</string>
-    <string name="gender_textview">Gender:</string>
-    <string name="good_with_textview">Good with:</string>
+    <string name="name_label">Name:</string>
+    <string name="age_label">Age:</string>
+    <string name="size_label">Size:</string>
+    <string name="status_label">Status:</string>
+    <string name="breed_label">Breed:</string>
+    <string name="gender_label">Gender:</string>
+    <string name="good_with_label">Good with:</string>
+    <string name="attributes_label">Attributes:</string>
     <string name="pet_name_greeting">Meet %1$s!</string>
     <string name="meet">Meet</string>
 
@@ -29,5 +32,6 @@
     <string name="pet_age_with_label">Age %1$s</string>
     <string name="pet_breed_with_label">Breed %1$s</string>
     <string name="pet_gender_with_label">Gender %1$s</string>
+    <string name="more_details">More details:</string>
 
 </resources>

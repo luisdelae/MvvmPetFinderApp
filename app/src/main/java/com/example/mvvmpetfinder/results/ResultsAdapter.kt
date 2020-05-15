@@ -45,7 +45,7 @@ class ResultsAdapter(
         holder.name.text = context.getString(R.string.pet_name_with_label, dataSet[position].name)
         holder.age.text = context.getString(R.string.pet_age_with_label, dataSet[position].age)
         // TODO: Build this separately to include other breeds/mix
-        holder.breed.text = context.getString(R.string.pet_breed_with_label, dataSet[position].breeds)
+        holder.breed.text = context.getString(R.string.pet_breed_with_label, dataSet[position].breeds.primary)
         holder.gender.text = context.getString(R.string.pet_gender_with_label, dataSet[position].gender)
         dataSet[position].goodWith?.let {
             holder.goodWithDogs.visibility =  if (it.dogs) { VISIBLE } else { GONE }

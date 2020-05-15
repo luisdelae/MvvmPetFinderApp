@@ -35,28 +35,28 @@
                 android:id="@+id/pet_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name_textview"
+                android:text="@string/name_label"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pet_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/age_textview"
+                android:text="@string/age_label"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pet_breed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/breed_textview"
+                android:text="@string/breed_label"
                 android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/pet_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/gender_textview"
+                android:text="@string/gender_label"
                 android:textSize="16sp"/>
 
             <LinearLayout
@@ -69,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/good_with_textview"
+                    android:text="@string/good_with_label"
                     android:textSize="16sp"/>
 
                 <ImageView

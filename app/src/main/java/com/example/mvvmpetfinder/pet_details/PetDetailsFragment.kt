@@ -11,8 +11,8 @@ import androidx.viewpager.widget.ViewPager
 import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.data.model.Pet
 
-// TODO: Build the actual fragment view
-// TODO: Seem to have all data needed. Do I though? If so, no repository needed. Delete it.
+// TODO: Add videos to the adapter?
+// TODO: Finish up the details
 class PetDetailsFragment : Fragment() {
 
     private val args: PetDetailsFragmentArgs by navArgs()
@@ -32,14 +32,25 @@ class PetDetailsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        loadDetails(view)
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun loadDetails(view: View) {
+        // Pet name
         val petNameGreeting = view.findViewById<TextView>(R.id.pet_name_greeting)
         petNameGreeting.text = requireContext().getString(R.string.pet_name_greeting, pet.name)
 
+        // Images and videos
         val petImageViewPager = view.findViewById<ViewPager>(R.id.pet_images_pager)
         pet.photos?.let { photos ->
             petImageViewPager.adapter = PetImageViewPagerAdapter(photos)
         }
 
-        super.onViewCreated(view, savedInstanceState)
+        // Description
+        val petDescription = view.findViewById<TextView>(R.id.pet_description)
+        petDescription.text = pet.description
     }
 }
