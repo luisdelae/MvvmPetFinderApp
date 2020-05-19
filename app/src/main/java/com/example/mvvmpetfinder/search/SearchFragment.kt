@@ -1,10 +1,14 @@
 package com.example.mvvmpetfinder.search
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +17,12 @@ import com.example.mvvmpetfinder.R
 import com.example.mvvmpetfinder.util.Constants.Companion.SPINNER_PET_TYPES
 import com.example.mvvmpetfinder.util.Constants.Companion.SPINNER_SELECTED_VALUE
 import com.example.mvvmpetfinder.util.Constants.Companion.ZIP_CODE_SELECTED_VALUE
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 /**
- * Shows a simple search screen to begin the search process
+ * Fragment used to search for pets by type and zip code
  */
 class SearchFragment : Fragment() {
 
@@ -24,8 +30,9 @@ class SearchFragment : Fragment() {
     var selectedPetType: String = ""
     var zipCode: String = ""
 
+    private lateinit var currentView: View
     private lateinit var spinner: Spinner
-    private lateinit var zipCodeEditText: EditText
+    private lateinit var zipCodeEditText: TextInputEditText
     private val petTypeNames = mutableListOf<String>()
 
     override fun onCreateView(
@@ -42,10 +49,11 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinner = view.findViewById(R.id.pet_type_spinner)
+        currentView = view
 
-        // TODO: Handle user entering zip lower than 5 chars
-        zipCodeEditText = view.findViewById(R.id.zip_code)
+        spinner = currentView.findViewById(R.id.pet_type_spinner)
+
+        zipCodeEditText = currentView.findViewById(R.id.zip_code_edit_text)
 
         // Used when orientation changes, mainly
         savedInstanceState?.let {
@@ -100,32 +108,39 @@ class SearchFragment : Fragment() {
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    enableSearchButton(false)
+                    // Can't really happen here)
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     selectedPetType = petTypeNames[position]
-                    enableSearchButton(true)
                 }
             }
         }
 
         initSearchButtonClick()
-    }
-
-    // Disable/Enable search button when a selection is made
-    private fun enableSearchButton(enable: Boolean) {
-        val button: Button? = view?.findViewById(R.id.search_button)
-        button?.isClickable = enable
-        button?.isEnabled = enable
+        initEnterListener()
     }
 
     private fun initSearchButtonClick() {
-        val button: Button? = view?.findViewById(R.id.search_button)
-        button?.setOnClickListener {
+        val button: Button = currentView.findViewById(R.id.search_button)
+        button.setOnClickListener {
+            showResults()
+        }
+    }
 
-            zipCode = zipCodeEditText.text.toString()
+    private fun initEnterListener() {
+        zipCodeEditText.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER) {
+                showResults()
+                true
+            } else false
+        }
+    }
 
+    private fun showResults() {
+        zipCode = zipCodeEditText.text.toString()
+
+        if (!zipError(zipCode)) {
             val action = SearchFragmentDirections
                 .actionSearchFragmentToResultsFragment(
                     petType = selectedPetType,
@@ -133,6 +148,20 @@ class SearchFragment : Fragment() {
                     zipCode = zipCode
                 )
             findNavController().navigate(action)
+        }
+    }
+
+    private fun zipError(zip: String): Boolean {
+        val zipLayout = currentView.findViewById<TextInputLayout>(R.id.zip_code_layout)
+
+        return if (zip.length < 5) {
+            zipLayout.isErrorEnabled = true
+            zipLayout.error = "Please enter a 5 digit zip code"
+            true
+        } else {
+            zipLayout.error = null
+            zipLayout.isErrorEnabled = false
+            false
         }
     }
 }
