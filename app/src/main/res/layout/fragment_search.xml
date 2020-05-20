@@ -50,8 +50,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
@@ -61,5 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"
             android:text="@string/search" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+    
 </ScrollView>

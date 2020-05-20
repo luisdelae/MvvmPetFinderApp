@@ -33,5 +33,10 @@
     <string name="pet_breed_with_label">Breed %1$s</string>
     <string name="pet_gender_with_label">Gender %1$s</string>
     <string name="more_details">More details:</string>
+    <string name="spayed_neutered">Spayed/Neutered</string>
+    <string name="house_trained">House Trained</string>
+    <string name="declawed">Declawed</string>
+    <string name="special_needs">Special Needs</string>
+    <string name="shots_current">Shots Current</string>
 
 </resources>

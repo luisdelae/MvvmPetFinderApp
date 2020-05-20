@@ -1,10 +1,12 @@
 package com.example.mvvmpetfinder.search
 
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -98,6 +100,9 @@ class SearchFragment : Fragment() {
         outState.putString(ZIP_CODE_SELECTED_VALUE, zipCode)
     }
 
+    /**
+     * Loads up the spinner with data
+     */
     private fun loadPetTypesSpinner(petTypeNames: List<String>) {
 
         this.context?.let {
@@ -121,6 +126,9 @@ class SearchFragment : Fragment() {
         initEnterListener()
     }
 
+    /**
+     * Initializes the button on click event
+     */
     private fun initSearchButtonClick() {
         val button: Button = currentView.findViewById(R.id.search_button)
         button.setOnClickListener {
@@ -128,15 +136,22 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Initializes keyboard listener for enter button
+     */
     private fun initEnterListener() {
         zipCodeEditText.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER) {
                 showResults()
+                closeKeyboard()
                 true
             } else false
         }
     }
 
+    /**
+     * Handles showing the results page
+     */
     private fun showResults() {
         zipCode = zipCodeEditText.text.toString()
 
@@ -151,6 +166,9 @@ class SearchFragment : Fragment() {
         }
     }
 
+    /**
+     * Error handling for the zip code input
+     */
     private fun zipError(zip: String): Boolean {
         val zipLayout = currentView.findViewById<TextInputLayout>(R.id.zip_code_layout)
 
@@ -163,5 +181,13 @@ class SearchFragment : Fragment() {
             zipLayout.isErrorEnabled = false
             false
         }
+    }
+
+    /**
+     * Closes out the keyboard
+     */
+    private fun closeKeyboard() {
+        val imm = this.requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(currentView.windowToken, 0)
     }
 }
