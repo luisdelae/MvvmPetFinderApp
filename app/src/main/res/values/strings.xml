@@ -29,9 +29,9 @@
     <string name="meet">Meet</string>
 
     <string name="pet_name_with_label">Name: %1$s</string>
-    <string name="pet_age_with_label">Age %1$s</string>
-    <string name="pet_breed_with_label">Breed %1$s</string>
-    <string name="pet_gender_with_label">Gender %1$s</string>
+    <string name="pet_age_with_label">Age: %1$s</string>
+    <string name="pet_breed_with_label">Breed: %1$s</string>
+    <string name="pet_gender_with_label">Gender: %1$s</string>
     <string name="more_details">More details:</string>
     <string name="spayed_neutered">Spayed/Neutered</string>
     <string name="house_trained">House Trained</string>

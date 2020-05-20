@@ -23,12 +23,12 @@ Simple Petfinder search application to practice Android development concepts
   + Maybe: Search based on gps location if no zip provided
 + Add on click to each result
   + ~~Take user to detailed result on click~~
-  + Build actual details fragment
+  + ~~Build actual details fragment~~
 + Add no results page
 + Add loading animation
 + Retry logic for all api calls
 + Add authenticator to auth'd api calls
-+ Try DataBinding for recyclerview adapte
++ Try DataBinding for recyclerview adapter
 + Work on UI
 + ~~Change Gson to Jackson~~
 + Add DI using Dagger 
