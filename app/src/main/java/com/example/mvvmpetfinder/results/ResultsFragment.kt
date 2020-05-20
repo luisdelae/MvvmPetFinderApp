@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,12 +29,13 @@ class ResultsFragment : Fragment() {
     private val args: ResultsFragmentArgs by navArgs()
     private lateinit var resultsViewModel: ResultsViewModel
 
+    private lateinit var noResultsView: ConstraintLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ResultsAdapter
     private val petTypeNames = mutableListOf<String>()
     private val petsList = mutableListOf<Pet>()
 
-    private lateinit var spinner: Spinner
+//    private lateinit var spinner: Spinner
     private var selectedPetType: String = ""
     private var zipCode: String? = null
 
@@ -59,11 +61,12 @@ class ResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        spinner = view.findViewById(R.id.pet_type_spinner)
+        noResultsView = view.findViewById(R.id.no_results_layout)
+//        spinner = view.findViewById(R.id.pet_type_spinner)
 
-        loadPetTypesSpinner(petTypeNames)
+//        loadPetTypesSpinner(petTypeNames)
 
-        spinner.setSelection(petTypeNames.indexOf(selectedPetType))
+//        spinner.setSelection(petTypeNames.indexOf(selectedPetType))
 
         // Should only ever be empty in this part of the lifecycle when it is fist created
         // Otherwise it should never be empty as the only way to go *back* to this fragment
@@ -82,39 +85,39 @@ class ResultsFragment : Fragment() {
             }
 
             resultsViewModel.initialPetsLiveData.observe(viewLifecycleOwner, Observer { pets ->
-                setCurrentPage(pets.paginationInfo.currentPage, pets.paginationInfo.totalPages)
+
+                pets.paginationInfo?.let { pageInfo ->
+                    setCurrentPage(pageInfo.currentPage, pageInfo.totalPages)
+                }
 
                 if (pets.pets.isNotEmpty()) {
                     petsList.addAll(pets.pets)
                     initRecyclerView(view)
                 } else {
-                    showEmptyResults()
+                    showEmptyResults(true)
                 }
             })
         }
     }
 
     private fun loadPetTypesSpinner(petTypeNames: List<String>) {
-
-        this.context?.let {
-            val arrayAdapter = ArrayAdapter<String>(it,
-                android.R.layout.simple_spinner_item, petTypeNames)
-
-            spinner.adapter = arrayAdapter
-
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                    enableSearchButton(false)
-                }
-
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    selectedPetType = petTypeNames[position]
-//                    enableSearchButton(true)
-                }
-            }
-        }
-
-//        initSearchButtonClick()
+//
+//        this.context?.let {
+//            val arrayAdapter = ArrayAdapter<String>(it,
+//                android.R.layout.simple_spinner_item, petTypeNames)
+//
+//            spinner.adapter = arrayAdapter
+//
+//            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    // Can't really happen here
+//                }
+//
+//                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                    selectedPetType = petTypeNames[position]
+//                }
+//            }
+//        }
     }
 
     private fun initScrollListener(layoutManager: LinearLayoutManager): RecyclerView.OnScrollListener {
@@ -139,6 +142,8 @@ class ResultsFragment : Fragment() {
     }
 
     private fun initRecyclerView(view: View) {
+        showEmptyResults(false)
+
         recyclerView = view.findViewById(R.id.results_recyclerview)
 
         val layoutManager = LinearLayoutManager(this.context)
@@ -162,7 +167,10 @@ class ResultsFragment : Fragment() {
         resultsViewModel.getMorePets(PetRequest(type = args.petType, page = currentPage + 1))
 
         resultsViewModel.morePetsLiveData.observe(viewLifecycleOwner, Observer { morePets ->
-            setCurrentPage(morePets.paginationInfo.currentPage, morePets.paginationInfo.totalPages)
+
+            morePets.paginationInfo?.let { pageInfo ->
+                setCurrentPage(pageInfo.currentPage, pageInfo.totalPages)
+            }
 
             setLoading(false)
 
@@ -172,8 +180,12 @@ class ResultsFragment : Fragment() {
         })
     }
 
-    private fun showEmptyResults() {
-        // TODO: Add empty results image
+    private fun showEmptyResults(show: Boolean) {
+        if (show && !isLastPage) {
+            noResultsView.visibility = View.VISIBLE
+        } else {
+            noResultsView.visibility = View.GONE
+        }
     }
 
     private fun setLoading(petsLoading: Boolean) {

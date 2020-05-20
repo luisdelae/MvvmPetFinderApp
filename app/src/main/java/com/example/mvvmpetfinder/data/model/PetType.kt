@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 class PetTypes(
     @JsonProperty("types")
-    val types: ArrayList<PetType>
+    val types: List<PetType>
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

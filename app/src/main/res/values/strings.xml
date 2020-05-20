@@ -38,5 +38,6 @@
     <string name="declawed">Declawed</string>
     <string name="special_needs">Special Needs</string>
     <string name="shots_current">Shots Current</string>
+    <string name="no_results_found">No results found…</string>
 
 </resources>

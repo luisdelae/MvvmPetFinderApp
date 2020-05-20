@@ -113,7 +113,7 @@ class SearchFragment : Fragment() {
 
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    // Can't really happen here)
+                    // Can't really happen here
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

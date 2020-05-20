@@ -3,6 +3,7 @@ package com.example.mvvmpetfinder.data.source.repository
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
+import com.example.mvvmpetfinder.data.model.Pet
 import com.example.mvvmpetfinder.data.model.Pets
 import com.example.mvvmpetfinder.data.request.PetRequest
 import com.example.mvvmpetfinder.data.request.toMap
@@ -37,8 +38,6 @@ class ResultsRepository(appContext: Application) {
 
         /**
          *  Convert request to [HashMap] for the [PetFinderApi.getPets] [QueryMap]
-         *  Gson builder override forces [Double] to return as [Long] so that we may send the
-         *  correct data type for the [PetRequest]
          */
         val petRequestData: Map<String, Any> = petRequest.toMap()
 
@@ -51,6 +50,7 @@ class ResultsRepository(appContext: Application) {
                     petsLiveData.value = response.body()
                 } else {
                     Timber.e("Unsuccessful. See above for details")
+                    petsLiveData.value = Pets(emptyList(), null)
                 }
             }
         })

@@ -9,9 +9,9 @@ import kotlinx.android.parcel.Parcelize
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Pets(
     @JsonProperty("animals")
-    val pets: ArrayList<Pet>,
+    val pets: List<Pet>,
     @JsonProperty("pagination")
-    val paginationInfo: Pagination
+    val paginationInfo: Pagination?
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)
