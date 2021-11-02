@@ -20,8 +20,8 @@ class TokenRepository {
         // Extract these and put em somewhere safe
         tokenApi.getToken(
                 "client_credentials",
-                "ZeaqbkOd8saaRetT54TeP8FZxkjGcPVnSIguMQJYpOJ6rULlFZ",
-                "IljBAjxgfkQLDgkcEnSQtxWi7efhErxgiflQ8srA"
+                "bgEFGggi2f7rkVcPSpGzpcgLCzcoFZ8EVZrrjhse8vGJCmmXkY",
+                "TCUgHp8k6iezVUbqbv7MNljQran4KgFiVckfxeZx"
         ).enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, r: Response<Token>) {
                 if (r.isSuccessful) {
